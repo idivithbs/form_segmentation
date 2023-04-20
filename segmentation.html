@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Customer Segmentation Form</title>
+</head>
+<body>
+  <form id="segmentation-form">
+    <label for="segmentation-type">Which type of segmentation do you need?</label>
+    <br>
+    <input type="checkbox" id="demographic" name="segmentation-type" value="demographic">
+    <label for="demographic">Demographic</label>
+    <br>
+    <input type="checkbox" id="technographic" name="segmentation-type" value="technographic">
+    <label for="technographic">Technographic</label>
+    <br>
+    <input type="checkbox" id="geographic" name="segmentation-type" value="geographic">
+    <label for="geographic">Geographic</label>
+    <br>
+    <input type="checkbox" id="psychographic" name="segmentation-type" value="psychographic">
+    <label for="psychographic">Psychographic</label>
+    <br>
+    <input type="checkbox" id="behavioral" name="segmentation-type" value="behavioral">
+    <label for="behavioral">Behavioral</label>
+    <br>
+    <input type="checkbox" id="needs-based" name="segmentation-type" value="needs-based">
+    <label for="needs-based">Needs-Based</label>
+    <br>
+    <input type="checkbox" id="value-based" name="segmentation-type" value="value-based">
+    <label for="value-based">Value-Based</label>
+    <br>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const form = document.querySelector('#segmentation-form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const selectedSegmentations = [];
+      const checkboxes = form.querySelectorAll('input[name="segmentation-type"]:checked');
+      for (let i = 0; i < checkboxes.length; i++) {
+        selectedSegmentations.push(checkboxes[i].value);
+      }
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/submit-segmentation');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          console.log(xhr.responseText);
+        } else {
+          console.log('Error:', xhr.statusText);
+        }
+      };
+      xhr.send(JSON.stringify(selectedSegmentations));
+    });
+  </script>
+</body>
+</html>
